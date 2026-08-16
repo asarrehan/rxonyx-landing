@@ -1,0 +1,6 @@
+# مافيش build — الملفات بتترفع زي ما هي
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
