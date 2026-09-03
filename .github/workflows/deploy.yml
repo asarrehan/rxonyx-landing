@@ -1,0 +1,35 @@
+# نشر تلقائي: كل push على main بيرفع الملفات لاستضافة Hostinger عبر FTPS.
+# بيانات الدخول في أسرار الريبو (Settings → Secrets) — مش في الكود أبدًا.
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-landing
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          security: loose   # الشهادة باسم Hostinger مش بالـIP — التشفير شغّال، فحص الاسم بس متعطّل
+          server-dir: ./
+          local-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            README.md
