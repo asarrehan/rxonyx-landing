@@ -33,3 +33,4 @@ jobs:
             **/.git*/**
             **/.github/**
             README.md
+            build.cjs
