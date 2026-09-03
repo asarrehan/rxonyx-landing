@@ -27,31 +27,21 @@ git remote add origin https://github.com/asarrehan/rxonyx-landing.git
 git push -u origin main
 ```
 
-### ② اربطيه في Hostinger
-**hPanel → الموقع → متقدّم → GIT**
+### ② النشر التلقائي — اللي اتعمل فعلًا (3/9/2026)
+صفحة GIT في hPanel بقت بتشتغل بربط حساب GitHub واحد بس بحساب Hostinger،
+والحساب المربوط هناك مش حسابك — فالربط بيتم من الناحية التانية:
+**GitHub Actions بيرفع الملفات لـHostinger عبر FTPS مع كل push.**
 
-| الخانة | تحطي فيها |
+| الحتة | فين |
 |---|---|
-| Repository | `https://github.com/asarrehan/rxonyx-landing.git` |
-| Branch | `main` |
-| Directory | **سيبيها فاضية** (يعني جذر `public_html`) |
+| الـworkflow | `.github/workflows/deploy.yml` (فرع `main` → `public_html`) |
+| بيانات FTP | **أسرار الريبو** Settings → Secrets → `FTP_SERVER` · `FTP_USERNAME` · `FTP_PASSWORD` — مش في الكود أبدًا |
+| حساب FTP | متعمول في hPanel → الموقع → Files → FTP Accounts (مستخدم مخصوص للنشر) |
 
-ودوسي **Create**. بعد ثواني اكتبي الدومين في المتصفح وهتلاقيها شغّالة.
+المتابعة: تبويب **Actions** في الريبو — كل push بيظهر كتشغيلة، خضرا يعني اتنشر.
 
-### ③ التحديث التلقائي — الخطوة اللي بتخلّيها أوتوماتيك
-في نفس صفحة GIT في Hostinger هتلاقي **Auto-Deployment** ومعاه رابط
-webhook. **انسخيه.**
-
-بعدين في GitHub:
-**الريبو → Settings → Webhooks → Add webhook**
-
-| الخانة | القيمة |
-|---|---|
-| Payload URL | الرابط اللي نسختيه من Hostinger |
-| Content type | `application/json` |
-| Events | `Just the push event` |
-
-**خلاص.** من دلوقتي أي `git push` بيحدّث الموقع لوحده في ثواني.
+> الشهادة بتاعة FTP باسم Hostinger مش بالـIP، فالـworkflow شغّال `security: loose`:
+> التشفير شغّال وفحص اسم الشهادة بس متعطّل — مقبول لصفحة ثابتة عامة.
 
 ---
 
@@ -72,7 +62,7 @@ git add -A && git commit -m "تعديل النص" && git push
 | # | إيه | فين |
 |---|---|---|
 | 1 | **رقم الواتساب** | دوّري على `20XXXXXXXXXX` في `index.html` وحطي رقمك — الصيغة الدولية **من غير `+` ومن غير مسافات** (مثال: `201001234567`) |
-| 2 | **اللوجو** | دلوقتي شكل مؤقت جوه `index.html` (مكانين: الـfavicon فوق، والشريط تحت). أول ما اللوجو النهائي يخلص بيتبدّل فيهم |
+| 2 | ~~اللوجو~~ | ✅ اتحط لوجو المصمم النهائي (الوردمارك في الهيدر والفوتر + أيقونة Rx الصغيرة كـfavicon) |
 
 ---
 
